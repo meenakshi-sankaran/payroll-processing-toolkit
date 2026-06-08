@@ -30,3 +30,35 @@ function calculateOvertimePay(rate, hours) {
 function calculateTaxes(grossPay) {
     return grossPay * 0.15;
 }
+
+// Step 6: Process Payroll for an individual employee
+function processPayroll(employee) {
+    // Call our helper functions using the employee's data
+    let basePay = calculateBasePay(employee.hourlyRate, employee.hoursWorked);
+    let overtimePay = calculateOvertimePay(employee.hourlyRate, employee.hoursWorked);
+    
+    let grossPay = basePay + overtimePay;
+    let taxDeduction = calculateTaxes(grossPay);
+    let netPay = grossPay - taxDeduction;
+
+    // Return a beautiful combined payroll object
+    return {
+        name: employee.name,
+        basePay: basePay,
+        overtimePay: overtimePay,
+        grossPay: grossPay,
+        netPay: netPay
+    };
+}
+
+// Step 7: Loop through the employee array and log the full payroll records
+console.log("--- FINAL PAYROLL REPORT ---");
+for (let employee of employees) {
+    let payrollRecord = processPayroll(employee);
+    console.log(`Employee: ${payrollRecord.name}`);
+    console.log(`  Base Pay: $${payrollRecord.basePay.toFixed(2)}`);
+    console.log(`  Overtime Pay: $${payrollRecord.overtimePay.toFixed(2)}`);
+    console.log(`  Gross Pay: $${payrollRecord.grossPay.toFixed(2)}`);
+    console.log(`  Net Pay (After 15% Tax): $${payrollRecord.netPay.toFixed(2)}`);
+    console.log("-----------------------------");
+}
